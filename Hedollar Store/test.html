@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hacker Terminal Navigation</title>
+  <style>
+    /* Base styling */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #0f0;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+    .terminal {
+      padding: 20px;
+    }
+
+    /* Scanline effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.1) 50%);
+      background-size: 100% 2px;
+      animation: scan 0.5s infinite;
+    }
+    @keyframes scan {
+      0%   { background-position: 0 0; }
+      100% { background-position: 0 2px; }
+    }
+
+    /* Date & Time */
+    #datetime {
+      font-size: 1.2em;
+      margin-bottom: 1em;
+    }
+
+    /* Navigation list */
+    ul.nav {
+      list-style: none;
+      padding: 0;
+    }
+    ul.nav li {
+      margin: 0.8em 0;
+    }
+    ul.nav li a {
+      color: #0f0;
+      text-decoration: none;
+      font-size: 1.5em;
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Glitch animation */
+    .glitch {
+      animation: glitch 0.5s;
+    }
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+        text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+      }
+      20% {
+        transform: translate(-2px, 2px);
+        text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9;
+      }
+      40% {
+        transform: translate(2px, -2px);
+        text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+      }
+      60% {
+        transform: translate(-2px, 2px);
+        text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9;
+      }
+      80% {
+        transform: translate(2px, -2px);
+        text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+      }
+      100% {
+        transform: translate(0);
+        text-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div id="datetime"></div>
+    <ul class="nav">
+      <li class="nav-item"><a href="/page1">Page 1</a></li>
+      <li class="nav-item"><a href="/page2">Page 2</a></li>
+      <li class="nav-item"><a href="/page3">Page 3</a></li>
+      <li class="nav-item"><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <script>
+    // Update date & time every second
+    function updateDateTime() {
+      const now = new Date();
+      const date = now.toLocaleDateString();
+      const time = now.toLocaleTimeString();
+      document.getElementById('datetime').textContent = `${date} ${time}`;
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // Occasional glitch effect on nav items
+    function glitchRandom() {
+      const items = document.querySelectorAll('.nav-item a');
+      const idx = Math.floor(Math.random() * items.length);
+      const el = items[idx];
+      el.classList.add('glitch');
+      setTimeout(() => el.classList.remove('glitch'), 500);
+    }
+    setInterval(glitchRandom, 2000);
+  </script>
+</body>
+</html>
